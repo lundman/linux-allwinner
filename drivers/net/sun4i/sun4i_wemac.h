@@ -1,31 +1,71 @@
 /*
- * drivers/net/sun4i/sun4i_wemac.h
- *
- * (C) Copyright 2007-2012
- * Allwinner Technology Co., Ltd. <www.allwinnertech.com>
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License as
- * published by the Free Software Foundation; either version 2 of
- * the License, or (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	 See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston,
- * MA 02111-1307 USA
- */
-
-/*
  * wemac Ethernet
  */
 
 #ifndef _WEMACX_H_
 #define _WEMACX_H_
+
+
+/* CTL_REG */
+#define EMAC_NCR             0x00
+#define EMAC_NSR             0x01
+#define EMAC_TCR             0x02
+#define EMAC_TSR1            0x03
+#define EMAC_TSR2            0x04
+#define EMAC_RCR             0x05
+#define EMAC_RSR             0x06
+#define EMAC_ROCR            0x07
+#define EMAC_BPTR            0x08
+#define EMAC_FCTR            0x09
+#define EMAC_FCR             0x0A
+#define EMAC_EPCR            0x0B
+#define EMAC_EPAR            0x0C
+#define EMAC_EPDRL           0x0D
+#define EMAC_EPDRH           0x0E
+#define EMAC_WCR             0x0F
+
+#define EMAC_PAR             0x10
+#define EMAC_MAR             0x16
+
+#define EMAC_GPCR            0x1e
+#define EMAC_GPR             0x1f
+#define EMAC_TRPAL           0x22
+#define EMAC_TRPAH           0x23
+#define EMAC_RWPAL           0x24
+#define EMAC_RWPAH           0x25
+
+#define EMAC_VIDL            0x28
+#define EMAC_VIDH            0x29
+#define EMAC_PIDL            0x2A
+#define EMAC_PIDH            0x2B
+#define EMAC_CHIPR           0x2C
+#define EMAC_SMCR            0x2F
+#define EMAC_ETXCSR          0x30
+#define EMAC_TCCR            0x31
+#define EMAC_RCSR            0x32
+
+/* Status bits */
+
+#define NCR_EXT_PHY         (1<<7)
+#define NCR_WAKEEN          (1<<6)
+#define NCR_FCOL            (1<<4)
+#define NCR_FDX             (1<<3)
+#define NCR_LBK             (3<<1)
+#define NCR_RST             (1<<0)
+
+#define EPCR_REEP           (1<<5)
+#define EPCR_WEP            (1<<4)
+#define EPCR_EPOS           (1<<3)
+#define EPCR_ERPRR          (1<<2)
+#define EPCR_ERPRW          (1<<1)
+#define EPCR_ERRE           (1<<0)
+
+#define WCR_LINKEN          (1<<5)
+#define WCR_SAMPLEEN        (1<<4)
+#define WCR_MAGICEN         (1<<3)
+#define WCR_LINKST          (1<<2)
+#define WCR_SAMPLEST        (1<<1)
+#define WCR_MAGICST         (1<<0)
 
 /*   registers define  */
 /*  EMAC register  */
@@ -75,7 +115,7 @@
 #define EMAC_SAFX_L_REG0         (0xA4)
 #define EMAC_SAFX_H_REG0         (0xA8)
 #define EMAC_SAFX_L_REG1         (0xAC)
-#define EMAC_SAFX_H_REG1         (0xB0)       
+#define EMAC_SAFX_H_REG1         (0xB0)
 #define EMAC_SAFX_L_REG2         (0xB4)
 #define EMAC_SAFX_H_REG2         (0xB8)
 #define EMAC_SAFX_L_REG3         (0xBC)
@@ -160,7 +200,7 @@
 
 
 //set up PHY
-#define PHY_AUTO_NEGOTIOATION  1  // 0: Normal     1: Auto(default) 
+#define PHY_AUTO_NEGOTIOATION  1  // 0: Normal     1: Auto(default)
 #define PHY_SPEED              1  // 0: 10M        1: 100M(default)
 #define EMAC_MAC_FULL          1  //0: Half duplex   1: Full duplex(default)
 
@@ -180,17 +220,17 @@
 #define EMAC_RX_UCAD        1  //0: Not accept             1: Accept unicast Packets(default)
 #define EMAC_RX_DAF         1  //0: Normal(default)        1: DA Filtering
 #define EMAC_RX_MCO         1  //0: Not accept             1: Accept multicast Packets(default)
-#define EMAC_RX_MHF         1  //0: Disable(default)       1: Enable Hash filter 
+#define EMAC_RX_MHF         1  //0: Disable(default)       1: Enable Hash filter
 #define EMAC_RX_BCO		    1  //0: Not accept             1: Accept Broadcast Packets(default)
 #define EMAC_RX_SAF         0  //0: Disable(default)       1: Enable SA Filtering
 #define EMAC_RX_SAIF        0  //0: Normal(default)        1: Inverse Filtering
-                                                           
-//set up MAC                                               
+
+//set up MAC
 #define EMAC_MAC_TFC        1  //0: Disable                1: Enable Transmit Flow Control(default)
 #define EMAC_MAC_RFC        1  //0: Disable                1: Enable Receive Flow Control(default)
 
 
-                                                           
+
 #define EMAC_MAC_FLC        1  //0: Disable                1: Enable MAC Frame Length Checking(default)
 #define EMAC_MAC_HF         0  //0: Disable(default)       1: Enable Huge Frame
 #define EMAC_MAC_DCRC       0  //0: Disable(default)       1: Enable MAC Delayed CRC
@@ -206,7 +246,7 @@
 
 #if EMAC_MAC_FULL
   #define EMAC_MAC_IPGT   0x15
-#else    
+#else
   #define EMAC_MAC_IPGT   0x12
 #endif
 
@@ -229,7 +269,9 @@
 #define WEMAC_PLATF_32BITONLY   (0x0004)
 #define WEMAC_PLATF_EXT_PHY     (0x0008)
 #define WEMAC_PLATF_NO_EEPROM   (0x0010)
-#define WEMAC_PLATF_SIMPLE_PHY (0x0020)  /* Use NSR to find LinkStatus */
+#define WEMAC_PLATF_SIMPLE_PHY  (0x0020)  /* Use NSR to find LinkStatus */
+
+#define EMAC_EEPROM_MAGIC		(0x444D394B)
 
 /* platfrom data for platfrom device structure's platfrom_data field */
 
